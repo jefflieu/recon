@@ -1,0 +1,11 @@
+#include <system.h>
+
+void setup()
+{
+  /* Put your setup code here */
+}
+
+void loop()
+{
+  /* Put your code that will be repeatedly call here */
+}
