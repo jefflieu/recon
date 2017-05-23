@@ -22,6 +22,11 @@ ROOT          = ../..
 SOFTWARE_PATH = $(shell pwd)
 HARDWARE_PATH = $(subst sw,hw,$(SOFTWARE_PATH))
 PLATFORM_NAME = $(lastword $(subst /, ,$(SOFTWARE_PATH)))
+BOARD_NAME    = bemicro_max10
+#You need "find" command in your search path. Windows system may have some difficulty. 
+#Here we search in hardware directories for the SOF files and with the correct BOARD_NAME
+SOF_FILES     = $(shell find $(HARDWARE_PATH) | grep -G sof$)
+SOF_FILE      = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME))
 
 #These commands are available in NIOS2-Command-Shell
 CREATE_BSP = nios2-bsp
@@ -30,8 +35,9 @@ CREATE_LIB = nios2-lib-generate-makefile
 CREATE_APP = nios2-app-generate-makefile
 
 BSP_DIR    = ./bsp
-
+LIB_DIR    = lib_$(PLATFORM_NAME)
 APP_NAME   = new_app
+
 .phony : help 
 help : #Fancy auto help
 		@IFS=$$'\n' ; \
@@ -55,7 +61,7 @@ edit_bsp: ##Open the GUI that we can edit the BSP settings. Remember to Save and
 
 .phony : generate_lib
 generate_lib: ##Generate library that contains drivers of our custom hardware (not from Altera).
-	$(CREATE_LIB) --bsp-dir=$(BSP_DIR) --inc-dir=$(ROOT)/sw/cmn/util --src-rdir=$(ROOT)/sw/cmn --lib-dir=lib_$(PLATFORM_NAME) --lib-name=$(PLATFORM_NAME)
+	$(CREATE_LIB) --bsp-dir=$(BSP_DIR) --inc-dir=$(ROOT)/sw/cmn/util --src-rdir=$(ROOT)/sw/cmn --lib-dir=$(LIB_DIR) --lib-name=$(PLATFORM_NAME)
 
 .phony : generate_app
 generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with make generate_app APP_NAME=<your app name>.
@@ -64,6 +70,25 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 	cp $(ROOT)/sw/cmn/util/main_template $(APP_NAME)/src/main.cpp
 	cp $(ROOT)/sw/cmn/util/app_template $(APP_NAME)/src/app.cpp
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(APP_NAME) --elf-name=$(APP_NAME).elf --src-dir=$(APP_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
+
+.phony : pof
+pof : generate_pof
+
+.phony : generate_pof
+generate_pof: ##Generate POF file from SOF file and memory initialization file
+	quartus_cpf -c -o compression=on -o ufm_source_file=$(APP_NAME)/mem_init/onchip_flash.hex $(SOF_FILE) ./$(PLATFORM_NAME)_$(BOARD_NAME).pof
+
+
+.phony : clean
+clean : 
+	make clean -C $(BSP_DIR)
+	make clean -C $(APP_NAME)
+	make clean -C $(LIB_DIR)
+
+.phony: reset
+reset : 
+	-find $(BSP_DIR) ! -name settings.bsp -delete
+	rm -rf $(LIB_DIR)
 
 #You can use this phony target to test your modified Makefile
 #I find the way Makefile parses the Makefile is rather confusing and unlike other programmes
