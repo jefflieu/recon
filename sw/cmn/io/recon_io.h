@@ -5,13 +5,12 @@
  *      Author: jeff
  */
 
-
-#include "io.h"
-#include "system.h"
-
 #ifndef RECON_IO_H_
 #define RECON_IO_H_
 
+#include "io.h"
+#include "system.h"
+#include "recon_types.h"
 
 #ifdef __cplusplus
 extern "C"

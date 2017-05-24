@@ -57,7 +57,7 @@ generate_bsp: ##Generate or Update BSP. Always use HAL. Ouput to "bsp" directory
 .phony : edit_bsp 
 edit_bsp: ##Open the GUI that we can edit the BSP settings. Remember to Save and then Generate it.
 	-mkdir $(BSP_DIR)/edit_dir
-	cd $(BSP_DIR)/edit_dir && $(EDIT_BSP) --settings ../settings.bsp
+	cd $(BSP_DIR) && $(EDIT_BSP) --settings settings.bsp
 
 .phony : generate_lib
 generate_lib: ##Generate library that contains drivers of our custom hardware (not from Altera).
