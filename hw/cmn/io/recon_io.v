@@ -87,7 +87,7 @@ module recon_io (
   reg     [ PORT_WIDTH-1: 0] irq_redge;
   reg     [ PORT_WIDTH-1: 0] irq_fedge;
   reg     [ PORT_WIDTH-1: 0] irq_status;
-  reg     [ PWM_CNTR_WIDTH-1: 0] pwm_values[PORT_WIDTH-1:0];
+  reg     [ PWM_CNTR_WIDTH  : 0] pwm_values[PORT_WIDTH-1:0];
   reg     [ PWM_CNTR_WIDTH-1: 0] pwm_cntr;
   
   

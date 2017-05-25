@@ -17,19 +17,20 @@ extern "C"
 {
 #endif
 
+#define OUTPWM 2
 #define OUTPUT 1
 #define INPUT  0
 
 
 #define HIGH   1
-#define LOW	   0
+#define LOW    0
 #define TOGGLE 2
 
 #define RECON_IO_PORT_BASE RECON_IO_0_BASE
-#define PINMODE (RECON_IO_PORT_BASE+0x0)
-#define DATAOUT (RECON_IO_PORT_BASE+0x4)
-#define DATAIN  (RECON_IO_PORT_BASE+0x8)
-#define PWM_ENA (RECON_IO_PORT_BASE+0x24)
+#define PINMODE   (RECON_IO_PORT_BASE+0x0)
+#define DATAOUT   (RECON_IO_PORT_BASE+0x4)
+#define DATAIN    (RECON_IO_PORT_BASE+0x8)
+#define PWM_ENA   (RECON_IO_PORT_BASE+0x18)
 #define PWM_VALUE (RECON_IO_PORT_BASE+0x40)
 
 #define recon_io_rd32(n) __builtin_ldwio ((void*)n)
@@ -42,7 +43,7 @@ extern "C"
 
 void pinMode(u32 pin, u32 mode);
 void digitalWrite(u32 pin, u32 value);
-int digitalRead(u32 pin);
+u32 digitalRead(u32 pin);
 void analogWrite(u32 pin, u32 value);
 
 #ifdef __cplusplus
