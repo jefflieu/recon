@@ -351,8 +351,8 @@
   <parameter name="resetSynchronousEdges" value="DEASSERT" />
  </module>
  <module name="cpu0" kind="altera_nios2_gen2" version="16.0" enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
-  <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="3" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="3" />
   <parameter name="AUTO_DEVICE" value="10M08DAF484C8GES" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
   <parameter name="bht_ramBlockType" value="Automatic" />
@@ -533,7 +533,7 @@
    version="16.0"
    enabled="1">
   <parameter name="allowInSystemMemoryContentEditor" value="false" />
-  <parameter name="autoInitializationFileName" value="recon_0_cpu0_ram" />
+  <parameter name="autoInitializationFileName">$${FILENAME}_cpu0_ram</parameter>
   <parameter name="blockType" value="AUTO" />
   <parameter name="copyInitFile" value="false" />
   <parameter name="dataWidth" value="32" />
@@ -573,7 +573,7 @@
   <parameter name="READ_BURST_COUNT" value="8" />
   <parameter name="READ_BURST_MODE" value="Incrementing" />
   <parameter name="SECTOR_ACCESS_MODE">Read and write,Read and write,Read only,Read only,Hidden</parameter>
-  <parameter name="autoInitializationFileName">recon_0_onchip_flash</parameter>
+  <parameter name="autoInitializationFileName">$${FILENAME}_onchip_flash</parameter>
   <parameter name="initFlashContent" value="false" />
   <parameter name="initializationFileName">altera_onchip_flash.hex</parameter>
   <parameter name="initializationFileNameForSim">altera_onchip_flash.dat</parameter>

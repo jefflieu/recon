@@ -31,7 +31,7 @@ set_module_property EDITABLE true
 set_module_property REPORT_TO_TALKBACK false
 set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
-
+set_module_property VALIDATION_CALLBACK validate
 
 # 
 # file sets
@@ -53,6 +53,7 @@ set_parameter_property PORT_WIDTH TYPE INTEGER
 set_parameter_property PORT_WIDTH UNITS None
 set_parameter_property PORT_WIDTH ALLOWED_RANGES -2147483648:2147483647
 set_parameter_property PORT_WIDTH HDL_PARAMETER true
+
 add_parameter PWM_CNTR_WIDTH INTEGER 8
 set_parameter_property PWM_CNTR_WIDTH DEFAULT_VALUE 8
 set_parameter_property PWM_CNTR_WIDTH DISPLAY_NAME PWM_CNTR_WIDTH
@@ -169,3 +170,9 @@ set_interface_assignment s0 embeddedsw.configuration.isMemoryDevice 0
 set_interface_assignment s0 embeddedsw.configuration.isNonVolatileStorage 0
 set_interface_assignment s0 embeddedsw.configuration.isPrintableDevice 0
 
+
+
+proc validate {} {  
+  set_module_assignment embeddedsw.CMacro.PORT_WIDTH      [get_parameter_value PORT_WIDTH]  
+  set_module_assignment embeddedsw.CMacro.PWM_CNTR_WIDTH  [get_parameter_value PWM_CNTR_WIDTH]  
+}

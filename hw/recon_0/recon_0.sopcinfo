@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="recon_0" kind="recon_0" version="1.0" fabric="QSYS">
  <!-- Format version 16.0 211 (Future versions may contain additional information.) -->
- <!-- 2017.05.25.22:14:34 -->
+ <!-- 2017.05.26.21:02:24 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1495714474</value>
+  <value>1495796543</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -8410,6 +8410,14 @@ parameters are a RESULT of the module parameters. -->
  <module name="recon_io_0" kind="recon_io" version="1.0" path="recon_io_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
+  <assignment>
+   <name>embeddedsw.CMacro.PORT_WIDTH</name>
+   <value>16</value>
+  </assignment>
+  <assignment>
+   <name>embeddedsw.CMacro.PWM_CNTR_WIDTH</name>
+   <value>10</value>
+  </assignment>
   <parameter name="PORT_WIDTH">
    <type>int</type>
    <value>16</value>
