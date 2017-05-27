@@ -27,7 +27,7 @@ set_module_property GROUP "Basic Functions/Miscellaneous"
 set_module_property AUTHOR "JEFF LIEU"
 set_module_property DISPLAY_NAME recon_io
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
-set_module_property EDITABLE true
+set_module_property EDITABLE false
 set_module_property REPORT_TO_TALKBACK false
 set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
@@ -51,7 +51,7 @@ set_parameter_property PORT_WIDTH DEFAULT_VALUE 16
 set_parameter_property PORT_WIDTH DISPLAY_NAME PORT_WIDTH
 set_parameter_property PORT_WIDTH TYPE INTEGER
 set_parameter_property PORT_WIDTH UNITS None
-set_parameter_property PORT_WIDTH ALLOWED_RANGES -2147483648:2147483647
+set_parameter_property PORT_WIDTH ALLOWED_RANGES  1:32
 set_parameter_property PORT_WIDTH HDL_PARAMETER true
 
 add_parameter PWM_CNTR_WIDTH INTEGER 8
@@ -59,7 +59,7 @@ set_parameter_property PWM_CNTR_WIDTH DEFAULT_VALUE 8
 set_parameter_property PWM_CNTR_WIDTH DISPLAY_NAME PWM_CNTR_WIDTH
 set_parameter_property PWM_CNTR_WIDTH TYPE INTEGER
 set_parameter_property PWM_CNTR_WIDTH UNITS None
-set_parameter_property PWM_CNTR_WIDTH ALLOWED_RANGES -2147483648:2147483647
+set_parameter_property PWM_CNTR_WIDTH ALLOWED_RANGES 8:32
 set_parameter_property PWM_CNTR_WIDTH HDL_PARAMETER true
 
 
@@ -127,10 +127,10 @@ set_interface_property io_port PORT_NAME_MAP ""
 set_interface_property io_port CMSIS_SVD_VARIABLES ""
 set_interface_property io_port SVD_ADDRESS_GROUP ""
 
-add_interface_port io_port io_out io_out Output 16
-add_interface_port io_port io_opdrn io_opdrn Output 16
-add_interface_port io_port io_in io_in Input 16
-add_interface_port io_port io_oe io_oe Output 16
+add_interface_port io_port io_out io_out Output PORT_WIDTH
+add_interface_port io_port io_opdrn io_opdrn Output PORT_WIDTH
+add_interface_port io_port io_in io_in Input PORT_WIDTH
+add_interface_port io_port io_oe io_oe Output PORT_WIDTH
 
 
 # 
