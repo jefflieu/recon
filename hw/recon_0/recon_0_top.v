@@ -9,7 +9,10 @@ module recon_0_top #(parameter PORT_0_WIDTH = 16) (
   input sys_clk,
   input sys_rstn,
   
-  inout [PORT_0_WIDTH-1:0] port_0_io);
+  inout [       PORT_0_WIDTH-1:0] port_0_io, 
+  output                          uart_0_txd,
+  input                           uart_0_rxd
+  );
 
   wire [PORT_0_WIDTH-1:0] port_0_out; 
   wire [PORT_0_WIDTH-1:0] port_0_in; 
@@ -48,7 +51,9 @@ module recon_0_top #(parameter PORT_0_WIDTH = 16) (
     .recon_timer_0_clock_tick_second      (),                      // recon_timer_0_clock_tick.second
     .recon_timer_0_clock_tick_millisecond (),                      //                         .millisecond
     .recon_timer_0_clock_tick_microsec    (),                      //                         .microsec
-    .reset_reset_n(sys_rstn_db)                                    //                    reset.reset_n
+    .reset_reset_n                        (sys_rstn_db),           //                    reset.reset_n
+    .uart_0_rxd                           (uart_0_rxd),
+    .uart_0_txd                           (uart_0_txd)
   );
   /* You can Insert your own Debouncer for the Button Here if required */    
   genvar IO;

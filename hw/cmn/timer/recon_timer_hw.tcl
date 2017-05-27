@@ -27,11 +27,11 @@ set_module_property GROUP "Basic Functions/Miscellaneous"
 set_module_property AUTHOR "JEFF LIEU"
 set_module_property DISPLAY_NAME recon_timer
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
-set_module_property EDITABLE true
+set_module_property EDITABLE false
 set_module_property REPORT_TO_TALKBACK false
 set_module_property ALLOW_GREYBOX_GENERATION false
 set_module_property REPORT_HIERARCHY false
-
+set_module_property VALIDATION_CALLBACK validate
 
 # 
 # file sets
@@ -50,9 +50,9 @@ add_parameter CLK_FREQ INTEGER 50000000 ""
 set_parameter_property CLK_FREQ DEFAULT_VALUE 50000000
 set_parameter_property CLK_FREQ DISPLAY_NAME CLK_FREQ
 set_parameter_property CLK_FREQ TYPE INTEGER
-set_parameter_property CLK_FREQ UNITS None
-set_parameter_property CLK_FREQ ALLOWED_RANGES -2147483648:2147483647
-set_parameter_property CLK_FREQ DESCRIPTION ""
+set_parameter_property CLK_FREQ UNITS Hertz
+set_parameter_property CLK_FREQ ALLOWED_RANGES 0:1000000000
+set_parameter_property CLK_FREQ DESCRIPTION "Frequency of system clock"
 set_parameter_property CLK_FREQ HDL_PARAMETER true
 
 
@@ -162,3 +162,6 @@ set_interface_assignment s0 embeddedsw.configuration.isMemoryDevice 0
 set_interface_assignment s0 embeddedsw.configuration.isNonVolatileStorage 0
 set_interface_assignment s0 embeddedsw.configuration.isPrintableDevice 0
 
+proc validate {} {
+  set_module_assignment embeddedsw.CMacro.CLK_FREQUENCY [get_parameter_value CLK_FREQ] 
+}

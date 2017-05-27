@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 26, 2017 9:03:12 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1495796592064</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>May 27, 2017 11:22:43 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1495891363383</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>./</BspGeneratedLocation>
         <BspSettingsFile>./bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_0/recon_0.sopcinfo</SopcDesignFile>
@@ -194,7 +194,7 @@
                 <SettingName>hal.stdin</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDIN character-mode device. This setting is used by the ALT_STDIN family of defines in system.h.</Description>
@@ -206,7 +206,7 @@
                 <SettingName>hal.stdout</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDOUT character-mode device. This setting is used by the ALT_STDOUT family of defines in system.h.</Description>
@@ -218,7 +218,7 @@
                 <SettingName>hal.stderr</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDERR character-mode device. This setting is used by the ALT_STDERR family of defines in system.h.</Description>
@@ -818,7 +818,7 @@
                 <SettingName>hal.enable_mul_div_emulation</SettingName>
                 <Identifier>ALT_NO_INSTRUCTION_EMULATION</Identifier>
                 <Type>Boolean</Type>
-                <Value>0</Value>
+                <Value>1</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>public_mk_define</DestinationFile>
                 <Description>Adds code to emulate multiply and divide instructions in case they are executed but aren't present in the CPU. Normally this isn't required because the compiler won't use multiply and divide instructions that aren't present in the CPU. If false, adds -DALT_NO_INSTRUCTION_EMULATION to ALT_CPPFLAGS in public.mk.</Description>
@@ -874,6 +874,30 @@
                 <Enabled>false</Enabled>
                 <Group>none</Group>
         </Setting>
+        <Setting>
+                <SettingName>altera_avalon_uart_driver.enable_small_driver</SettingName>
+                <Identifier>ALTERA_AVALON_UART_SMALL</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>public_mk_define</DestinationFile>
+                <Description>Small-footprint (polled mode) driver</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_avalon_uart_driver.enable_ioctl</SettingName>
+                <Identifier>ALTERA_AVALON_UART_USE_IOCTL</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>public_mk_define</DestinationFile>
+                <Description>Enable driver ioctl() support. This feature is not compatible with the 'small' driver; ioctl() support will not be compiled if either the UART 'enable_small_driver' or HAL 'enable_reduced_device_drivers' settings are enabled.</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
         <MemoryMap>
                 <slaveDescriptor>altpll_0</slaveDescriptor>
                 <addressRange>0x00000000 - 0x0000000F</addressRange>
@@ -891,6 +915,12 @@
                 <addressRange>0x00010100 - 0x0001011F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>uart_0</slaveDescriptor>
+                <addressRange>0x00010200 - 0x0001021F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>cpu0_ram</slaveDescriptor>
