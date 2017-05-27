@@ -31,7 +31,13 @@ extern "C"
 #define DATAOUT   (RECON_IO_PORT_BASE+0x4)
 #define DATAIN    (RECON_IO_PORT_BASE+0x8)
 #define PWM_ENA   (RECON_IO_PORT_BASE+0x18)
+#define IRQ_STATUS (RECON_IO_PORT_BASE+0x1C)
+#define IRQ_ENA    (RECON_IO_PORT_BASE+0x20)
+#define IRQ_REDGE  (RECON_IO_PORT_BASE+0x24)
+#define IRQ_FEDGE  (RECON_IO_PORT_BASE+0x28)
 #define PWM_VALUE (RECON_IO_PORT_BASE+0x40)
+
+
 
 #define recon_io_rd32(n) __builtin_ldwio ((void*)n)
 #define recon_io_rd16(n) __builtin_ldhuio ((void*)n)
