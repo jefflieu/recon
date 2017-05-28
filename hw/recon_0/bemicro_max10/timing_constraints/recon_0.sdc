@@ -42,6 +42,9 @@ set_time_format -unit ns -decimal_places 3
 create_clock -name {altera_reserved_tck} -period 100.000 -waveform { 0.000 50.000 } [get_ports {altera_reserved_tck}]
 create_clock -name {sys_clk_in} -period 20.000 -waveform { 0.000 10.000 } [get_ports {sys_clk}]
 
+derive_pll_clocks
+# Rename the clock 
+set cpu_clk {comb_3|altpll_0|sd1|pll7|clk[0]}
 
 #**************************************************************
 # Create Generated Clock

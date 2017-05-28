@@ -50,6 +50,9 @@ help : #Fancy auto help
         printf "%-30s %s\n" $$help_command $$help_info ; \
     done
 
+.phony : bsp
+bsp : generate_bsp
+
 .phony : generate_bsp 
 generate_bsp: ##Generate or Update BSP. Always use HAL. Ouput to "bsp" directory. SOPC file is fetched from the hardware
 	$(CREATE_BSP) hal $(BSP_DIR) $(HARDWARE_PATH)/$(PLATFORM_NAME).sopcinfo 
@@ -70,6 +73,10 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 	cp $(ROOT)/sw/cmn/util/main_template $(APP_NAME)/src/main.cpp
 	cp $(ROOT)/sw/cmn/util/app_template $(APP_NAME)/src/app.cpp
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(APP_NAME) --elf-name=$(APP_NAME).elf --src-dir=$(APP_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
+
+.phony : app
+app : 
+	make -C $(APP_NAME) mem_init_generate
 
 .phony : pof
 pof : generate_pof

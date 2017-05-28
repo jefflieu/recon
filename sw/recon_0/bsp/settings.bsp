@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 27, 2017 11:22:43 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1495891363383</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>May 28, 2017 11:01:07 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1495976467033</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>./</BspGeneratedLocation>
         <BspSettingsFile>./bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_0/recon_0.sopcinfo</SopcDesignFile>
@@ -926,6 +926,12 @@
                 <slaveDescriptor>cpu0_ram</slaveDescriptor>
                 <addressRange>0x01000000 - 0x01003FFF</addressRange>
                 <addressSpan>16384</addressSpan>
+                <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>cpu0_exception_ram</slaveDescriptor>
+                <addressRange>0x01100000 - 0x01100FFF</addressRange>
+                <addressSpan>4096</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
