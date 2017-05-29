@@ -23,11 +23,11 @@ void delay_second(u32 time)
   while(RECON_TIMER_S<expire_time){};
 }
 
-void set_irq_interval(u32 time)
+void recon_timer_irq_interval(u32 time)
 {
     RECON_TIMER_I = time;
 }
-void set_irq_mode(u32 mode)
+void recon_timer_irq_mode(u32 mode)
 {
     RECON_TIMER_CTRL = mode;
 }

@@ -2,7 +2,7 @@
   Project: RECON 2017
   Author: Jeff Lieu <lieumychuong@gmail.com>
   Description: IO port that supports up to 32 pins 
-                + Support PWM
+                + Support PWM with programmable PWM Period
                 + Support Interrupts on Changes of Input 
 
 */
@@ -29,7 +29,8 @@
 `define IRQ_REDGE_OFFSET  9
 `define IRQ_FEDGE_OFFSET 10
 `define DBNC_ENA_OFFSET  11
-`define PWM_VALUE_OFFSET 16
+`define PWM_PERIOD_OFFSET   12
+`define PWM_VALUE_OFFSET    16
 
 
 module recon_io (
@@ -83,12 +84,13 @@ module recon_io (
   reg     [ PORT_WIDTH-1: 0] data_in_event;  
   reg     [ PORT_WIDTH-1: 0] pwm_ena;
   reg     [ PORT_WIDTH-1: 0] pwm_out;
-  reg     [ PORT_WIDTH-1: 0] irq_ena;
+  wire    [ PORT_WIDTH-1: 0] irq_ena;
   reg     [ PORT_WIDTH-1: 0] irq_redge;
   reg     [ PORT_WIDTH-1: 0] irq_fedge;
   reg     [ PORT_WIDTH-1: 0] irq_status;
   reg     [ PWM_CNTR_WIDTH  : 0] pwm_values[PORT_WIDTH-1:0];
   reg     [ PWM_CNTR_WIDTH-1: 0] pwm_cntr;
+  reg     [ PWM_CNTR_WIDTH  : 0] pwm_period;
   
   
   assign clk_en = 1;
@@ -109,11 +111,12 @@ module recon_io (
       `OUT_SET_OFFSET   : read_mux_reg <= 32'h0;
       `OUT_CLR_OFFSET   : read_mux_reg <= 32'h0;
       `OPENDRN_OFFSET   : read_mux_reg <= pin_opdrn;
+      `IRQ_ENA_OFFSET   : read_mux_reg <= irq_ena;
       `PWM_ENA_OFFSET   : read_mux_reg <= pwm_ena;
       `IRQ_STATUS_OFFSET: read_mux_reg <= irq_status;
-      `IRQ_ENA_OFFSET   : read_mux_reg <= irq_ena;
       `IRQ_REDGE_OFFSET : read_mux_reg <= irq_redge;
       `IRQ_FEDGE_OFFSET : read_mux_reg <= irq_fedge;
+      `PWM_PERIOD_OFFSET: read_mux_reg <= pwm_period;
       default           : read_mux_reg <= data_in;
       endcase 
     end 
@@ -126,9 +129,10 @@ module recon_io (
       if (reset_n == 0) begin 
           pin_mode <= 0;
           pwm_ena  <= 0;
-          irq_ena  <= 0;
           irq_redge<= 0;
-          irq_fedge<= 0;        
+          irq_fedge<= 0;   
+          pwm_period[PWM_CNTR_WIDTH] <= 1'b1;
+          pwm_period[PWM_CNTR_WIDTH-1:0] <= 0;     
         end 
       else begin 
         if (chipselect && write && (address == `DIR_OFFSET)) begin 
@@ -137,18 +141,18 @@ module recon_io (
         if (chipselect && write && (address == `PWM_ENA_OFFSET)) begin 
           pwm_ena   <= writedata;
         end
-        if (chipselect && write && (address == `IRQ_ENA_OFFSET)) begin 
-          irq_ena   <= writedata;
-        end
         if (chipselect && write && (address == `IRQ_REDGE_OFFSET)) begin 
           irq_redge <= writedata;
         end
         if (chipselect && write && (address == `IRQ_FEDGE_OFFSET)) begin 
           irq_fedge <= writedata;
         end
+        if (chipselect && write && (address == `PWM_PERIOD_OFFSET)) begin 
+          pwm_period <= writedata;
+        end
       end       
     end
-  
+  assign irq_ena = irq_redge | irq_fedge;
   /* 
   Data Out Register 
   */
@@ -217,6 +221,7 @@ module recon_io (
   always@(posedge clk)
     begin 
       pwm_cntr <= pwm_cntr + 1;
+      if (pwm_cntr == pwm_period) pwm_cntr <= 0;
       for(I=0;I<PORT_WIDTH;I=I+1)
       if (pwm_cntr<pwm_values[I]) 
         pwm_out[I] <= pwm_ena[I]; 

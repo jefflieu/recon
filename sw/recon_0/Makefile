@@ -37,6 +37,7 @@ CREATE_APP = nios2-app-generate-makefile
 BSP_DIR    = ./bsp
 LIB_DIR    = lib_$(PLATFORM_NAME)
 APP_NAME   = new_app
+EX_NAME    = frequency_counter
 
 .phony : help 
 help : #Fancy auto help
@@ -75,8 +76,17 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(APP_NAME) --elf-name=$(APP_NAME).elf --src-dir=$(APP_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
 
 .phony : app
-app : 
+app : ##Build and generate memory initialization file for $(APP_NAME) 
 	make -C $(APP_NAME) mem_init_generate
+
+.phony : generate_example
+generate_example : ##Create an example to run with current platform from the example collection, example $(EX_NAME) is created
+	#Copy the example to the local directory 
+	#cp  -r ../examples/$(EX_NAME) ./
+	mkdir $(EX_NAME)
+	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(EX_NAME) --elf-name=$(EX_NAME).elf --src-dir=$(ROOT)/sw/examples/$(EX_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
+	
+
 
 .phony : pof
 pof : generate_pof
@@ -87,13 +97,13 @@ generate_pof: ##Generate POF file from SOF file and memory initialization file
 
 
 .phony : clean
-clean : 
+clean : ##Clean BSP, LIB and APP folder 
 	make clean -C $(BSP_DIR)
 	make clean -C $(APP_NAME)
 	make clean -C $(LIB_DIR)
 
 .phony: reset
-reset : 
+reset : ##Remove BSP and LIB folder
 	-find $(BSP_DIR) ! -name settings.bsp -delete
 	rm -rf $(LIB_DIR)
 
@@ -102,5 +112,5 @@ reset :
 #So a test target is quite helpful to do experiment and debug
 .phony : test 
 
-test : #Test target 
+test : ##Test target 
 	@echo Current platform is $(PLATFORM_NAME)
