@@ -25,8 +25,11 @@ PLATFORM_NAME = $(lastword $(subst /, ,$(SOFTWARE_PATH)))
 BOARD_NAME    = bemicro_max10
 #You need "find" command in your search path. Windows system may have some difficulty. 
 #Here we search in hardware directories for the SOF files and with the correct BOARD_NAME
+#Then select between released sof file and development sof file
 SOF_FILES     = $(shell find $(HARDWARE_PATH) | grep -G sof$)
-SOF_FILE      = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME))
+REL_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME)/release)
+DEV_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME))
+SOF_FILE      = $(if $(REL_SOF_FILE),$(REL_SOF_FILE),${DEV_SOF_FILE})
 
 #These commands are available in NIOS2-Command-Shell
 CREATE_BSP = nios2-bsp
