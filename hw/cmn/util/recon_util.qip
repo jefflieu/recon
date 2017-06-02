@@ -1,0 +1,3 @@
+
+set_global_assignment -library "recon_util" -name VERILOG_FILE [file join $::quartus(qip_path) "buttonDebouncer.v"]
+set_global_assignment -library "recon_util" -name VERILOG_FILE [file join $::quartus(qip_path) "metaSync.v"]
