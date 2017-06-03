@@ -5,7 +5,7 @@
 */
 
 /* Note that the PORT_0_WIDTH doesn't propagate to the NIOS system */
-module recon_0_top #(parameter PORT_0_WIDTH = 16) (
+module recon_0_top #(parameter PORT_0_WIDTH = 32) (
   input sys_clk,
   input sys_rstn,
   
