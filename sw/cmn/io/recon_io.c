@@ -16,8 +16,9 @@ void pinMode(u32 pin, u32 mode)
 {
   u32 pinmode = recon_io_rd32(PINMODE);
   u32 pwm_ena = recon_io_rd32(PWM_ENA);
-  pinmode = (mode==OUTPUT||mode==OUTPWM)?pinmode|(1<<pin):(pinmode&(1<<pin));
-  pwm_ena = (mode==OUTPWM)?pwm_ena|(1<<pin):(pwm_ena&(1<<pin));
+  u32 pinMask = (1<<pin);
+  pinmode = (mode==OUTPUT||mode==OUTPWM)?pinmode|pinMask:(pinmode&(~pinMask));
+  pwm_ena = (mode==OUTPWM)?pwm_ena|pinMask:(pwm_ena&(~pinMask));
   recon_io_wr32(PINMODE,pinmode);
   recon_io_wr32(PWM_ENA,pwm_ena);
 }
@@ -30,10 +31,11 @@ void pinMode(u32 pin, u32 mode)
 void ALT_INLINE digitalWrite(u32 pin, u32 value)
 {
   u32 dataout = recon_io_rd32(DATAOUT);
+  u32 pinMask = 1<<pin;
   dataout = (value==TOGGLE)?
-          (dataout^(1<<pin)):
-            ((value==HIGH)?dataout|(1<<pin):
-              (dataout&(~(1<<pin))));
+          (dataout^(pinMask)):
+            ((value==HIGH)?dataout|(pinMask):
+              (dataout&(~pinMask)));
   recon_io_wr32(DATAOUT,dataout);
 }
 
@@ -58,7 +60,7 @@ u32 ALT_INLINE digitalRead(u32 pin)
  */
 void  analogWrite(u32 pin, u32 value)
 {
-  u32 addr = PWM_VALUE + ((pin&0x3F)<<2);
+  u32 addr = PWM_VALUE + ((pin&0x1F)<<2);
   recon_io_wr32(addr,value);
 }
 
@@ -69,19 +71,19 @@ void  analogWrite(u32 pin, u32 value)
  * @return none
  */
 void pinInterrupt(u32 pin, u32 value)
-{   u32 tmp;
-    tmp = recon_io_rd32(IRQ_REDGE);
+{   u32 tmp = recon_io_rd32(IRQ_REDGE);
+    u32 pinMask = 1<<pin;
     if (value==RISING_EDGE) 
-      tmp |= (1<<pin);
+      tmp |= (pinMask);
     else
-      tmp &= (~(1<<pin));
+      tmp &= (~(pinMask));
     recon_io_wr32(IRQ_REDGE, tmp);
         
     tmp = recon_io_rd32(IRQ_FEDGE);
     if (value==FALLING_EDGE) 
-      tmp |= (1<<pin);
+      tmp |= (pinMask);
     else
-      tmp &= (~(1<<pin));
+      tmp &= (~(pinMask));
     recon_io_wr32(IRQ_FEDGE, tmp);
 }
 /** 
