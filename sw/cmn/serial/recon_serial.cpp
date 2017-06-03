@@ -37,8 +37,8 @@ void recon_serial::print(const float f)
    * We need to rely on system sprintf function for floating point implementation
    * If you don't mind the code size, you can use it
    */
-  sprintf(buffer,"%f",f);
-  putstr(buffer);
+  //sprintf(buffer,"%f",f);
+  //putstr(buffer);
 }
 
 void recon_serial::print(const u32 d, u32 base)

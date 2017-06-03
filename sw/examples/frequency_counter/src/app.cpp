@@ -19,6 +19,7 @@ u32 freqCntr;
 u32 frequency;
 u32 timerUp;
 
+#define PWM_PIN 24
 /*
  * We put the ISR into the "exception" section 
  */
@@ -44,14 +45,14 @@ void setup()
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // Setup mode of Pins, we have INPUT, OUTPUT and OUTPWM modes
   pinMode(0,OUTPUT);
-  pinMode(1,OUTPWM);
+  pinMode(PWM_PIN,INPUT);
   setPWMPeriod(1000);
-  analogWrite(1, 200);
+  analogWrite(PWM_PIN, 200);
   
   //Note that we always have internal loopback at the pin
   //The pin input path is always available even if we set the pin as OUTPUT or OUTPWM
   //When the pin is set to INPUT mode, it will then turn off the driving buffer
-  pinInterrupt(1,RISING_EDGE);
+  pinInterrupt(PWM_PIN,RISING_EDGE);
   
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // Setup Timer interrupt interval = 1000 ms (write 1000-1)
@@ -80,6 +81,7 @@ void loop()
         Serial.print("Frequency is ");
         Serial.println(frequency);
         timerUp = 0;
+        digitalWrite(0, TOGGLE);
     }
 }
 

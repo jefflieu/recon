@@ -23,13 +23,13 @@ SOFTWARE_PATH = $(shell pwd)
 HARDWARE_PATH = $(subst sw,hw,$(SOFTWARE_PATH))
 PLATFORM_NAME = $(lastword $(subst /, ,$(SOFTWARE_PATH)))
 BOARD_NAME    = bemicro_max10
+
 #You need "find" command in your search path. Windows system may have some difficulty. 
 #Here we search in hardware directories for the SOF files and with the correct BOARD_NAME
 #Then select between released sof file and development sof file
-SOF_FILES     = $(shell find $(HARDWARE_PATH) | grep -G sof$)
-REL_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME)/release)
-DEV_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep -G sof$ | grep $(BOARD_NAME))
-SOF_FILE      = $(if $(REL_SOF_FILE),$(REL_SOF_FILE),${DEV_SOF_FILE})
+REL_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep $(BOARD_NAME)/release/$(PLATFORM_NAME).sof)
+DEV_SOF_FILE  = $(shell find $(HARDWARE_PATH) | grep $(BOARD_NAME)/output_files/$(PLATFORM_NAME).sof)
+SOF_FILE      = $(if $(DEV_SOF_FILE),$(DEV_SOF_FILE),${REL_SOF_FILE})
 
 #These commands are available in NIOS2-Command-Shell
 CREATE_BSP = nios2-bsp
@@ -43,7 +43,7 @@ APP_NAME   = new_app
 EX_NAME    = frequency_counter
 
 .phony : help 
-help : #Fancy auto help
+help : ##Fancy auto help
 		@IFS=$$'\n' ; \
     help_lines=(`fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//'`); \
     for help_line in $${help_lines[@]}; do \
@@ -54,19 +54,19 @@ help : #Fancy auto help
         printf "%-30s %s\n" $$help_command $$help_info ; \
     done
 
-.phony : bsp
-bsp : generate_bsp
-
-.phony : generate_bsp 
-generate_bsp: ##Generate or Update BSP. Always use HAL. Ouput to "bsp" directory. SOPC file is fetched from the hardware
+.phony : new_bsp edit_bsp update_bsp
+new_bsp :  ##Generate or Reset BSP settings to defaults. Always use HAL. Ouput to "bsp" directory. SOPC file is fetched from the hardware
 	$(CREATE_BSP) hal $(BSP_DIR) $(HARDWARE_PATH)/$(PLATFORM_NAME).sopcinfo 
 
-.phony : edit_bsp 
 edit_bsp: ##Open the GUI that we can edit the BSP settings. Remember to Save and then Generate it.
 	-mkdir $(BSP_DIR)/edit_dir
 	cd $(BSP_DIR) && $(EDIT_BSP) --settings settings.bsp
 
-.phony : generate_lib
+update_bsp : ##Update BSP with latest SOPCINFO but keep changes you've made to BSP
+	$(CREATE_BSP) hal $(BSP_DIR) $(HARDWARE_PATH)/$(PLATFORM_NAME).sopcinfo --default_stdio DONT_CHANGE --default_memory_regions DONT_CHANGE --default_section_regions DONT_CHANGE --default_sys_timer DONT_CHANGE --default_sections_mapping DONT_CHANGE --use_bootloader DONT_CHANGE 
+
+.phony : lib generate_lib 
+lib : generate_lib
 generate_lib: ##Generate library that contains drivers of our custom hardware (not from Altera).
 	$(CREATE_LIB) --bsp-dir=$(BSP_DIR) --inc-dir=$(ROOT)/sw/cmn/util --src-rdir=$(ROOT)/sw/cmn --lib-dir=$(LIB_DIR) --lib-name=$(PLATFORM_NAME)
 
@@ -78,7 +78,8 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 	cp $(ROOT)/sw/cmn/util/app_template $(APP_NAME)/src/app.cpp
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(APP_NAME) --elf-name=$(APP_NAME).elf --src-dir=$(APP_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
 
-.phony : app
+.phony : app compile_app
+compile_app : app
 app : ##Build and generate memory initialization file for $(APP_NAME) 
 	make -C $(APP_NAME) mem_init_generate
 
@@ -90,12 +91,10 @@ generate_example : ##Create an example to run with current platform from the exa
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(EX_NAME) --elf-name=$(EX_NAME).elf --src-dir=$(ROOT)/sw/examples/$(EX_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
 	
 
-
-.phony : pof
+.phony : pof generate_pof
 pof : generate_pof
-
-.phony : generate_pof
 generate_pof: ##Generate POF file from SOF file and memory initialization file
+	@echo "Selected SOF   : $(SOF_FILE)"
 	quartus_cpf -c -o compression=on -o ufm_source_file=$(APP_NAME)/mem_init/onchip_flash.hex $(SOF_FILE) ./$(PLATFORM_NAME)_$(BOARD_NAME).pof
 
 
