@@ -20,8 +20,8 @@
 
 ROOT          = ../..
 SOFTWARE_PATH = $(shell pwd)
-HARDWARE_PATH = $(subst sw,hw,$(SOFTWARE_PATH))
 PLATFORM_NAME = $(lastword $(subst /, ,$(SOFTWARE_PATH)))
+HARDWARE_PATH = $(ROOT)/hw/$(PLATFORM_NAME)
 BOARD_NAME    = bemicro_max10
 
 #You need "find" command in your search path. Windows system may have some difficulty. 
