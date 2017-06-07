@@ -13,25 +13,34 @@
  */
 void delay(u32 time)
 {
-	u32 expire_time = RECON_TIMER_MS + time;
-	while(RECON_TIMER_MS<expire_time){};
+  u32 expire_time = RECON_TIMER_MS + time;
+  while(RECON_TIMER_MS<expire_time){};
 }
 
 void delay_second(u32 time)
 {
-	u32 expire_time = RECON_TIMER_S + time;
-	while(RECON_TIMER_S<expire_time){};
+  u32 expire_time = RECON_TIMER_S + time;
+  while(RECON_TIMER_S<expire_time){};
+}
+
+void recon_timer_irq_interval(u32 time)
+{
+    RECON_TIMER_I = time;
+}
+void recon_timer_irq_mode(u32 mode)
+{
+    RECON_TIMER_CTRL = mode;
 }
 
 /*
 void delay(u32 time)
 {
-	u32 expire_time = RECON_TIMER_MS + time;
-	u32 current_time;
-	do {
-	 current_time = RECON_TIMER_MS;
-	}
-	while(current_time<expire_time||((expire_time^current_time)&0x8000000)!=0){};
+  u32 expire_time = RECON_TIMER_MS + time;
+  u32 current_time;
+  do {
+   current_time = RECON_TIMER_MS;
+  }
+  while(current_time<expire_time||((expire_time^current_time)&0x8000000)!=0){};
 }
 */
 

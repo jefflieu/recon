@@ -14,6 +14,7 @@
 `define     SECOND_OFFSET    1
 `define     IRQ_TIME_OFFSET  2
 `define     CTRL_OFFSET      3
+`define     IRQ_STATUS_OFFSET        4
 
 `define     IRQ_COUNTDOWN_ENA_BIT    0
 `define     IRQ_TIMER_CONTINUOUS_BIT 1
@@ -70,18 +71,19 @@ module recon_timer (
   reg     [  9: 0] timer;
   reg     irq_active;
   reg     irq_active_d;
-  reg     [  3: 0] irq_pulse;
+  reg     irq_pulse;
   //s1, which is an e_avalon_slave
 
   always@(posedge clk)
   begin 
     if (chipselect && read)
       case(address)      
-      `MILLISEC_OFFSET : read_mux_reg <= millisec;
-      `SECOND_OFFSET   : read_mux_reg <= second;
-      `IRQ_TIME_OFFSET : read_mux_reg <= irq_time;
-      `CTRL_OFFSET     : read_mux_reg <= {28'h0, ctrl_reg};      
-      default          : read_mux_reg <= 32'h0;
+      `MILLISEC_OFFSET    : read_mux_reg <= millisec;
+      `SECOND_OFFSET      : read_mux_reg <= second;
+      `IRQ_TIME_OFFSET    : read_mux_reg <= irq_time;
+      `CTRL_OFFSET        : read_mux_reg <= {28'h0, ctrl_reg};      
+      `IRQ_STATUS_OFFSET  : read_mux_reg <= {31'h0, irq_pulse};      
+      default             : read_mux_reg <= 32'h0;
       endcase 
     end 
   assign readdata = read_mux_reg;
@@ -126,24 +128,26 @@ module recon_timer (
       /* Timing Interval */
       if (chipselect && write && address==`IRQ_TIME_OFFSET)
         irq_time <= writedata;
-      
-      irq_active_d <= irq_active;
-      if (irq_active == 1'b1 && irq_active_d == 1'b0)
-        irq_pulse <= 4'b1111;
-      else 
-        irq_pulse <= {irq_pulse[2:0],1'b0};
+            
+      if (irq_active)
+        irq_pulse <= 1'b1;
+      else if (chipselect && write && address == `IRQ_STATUS_OFFSET && writedata[0]==1'b1)
+        irq_pulse <= 1'b0;
         
       /* Interval Interrupt mode */
+      irq_active <= 1'b0;
       if (ctrl_reg[`IRQ_COUNTDOWN_ENA_BIT]==1'b1) begin 
-        irq_timer <= irq_timer + 1;
-        if (irq_timer == irq_time) begin 
-          irq_active <= 1'b1;
-          /* If Continuous Mode is enabled, we restart the timer */
-          if (ctrl_reg[`IRQ_TIMER_CONTINUOUS_BIT]==1'b1) begin 
-            irq_timer <= 0;
-          end           
-        end         
-      end else 
+        if (millisec_tick == 1'b1) begin 
+          irq_timer <= irq_timer + 1;
+          if (irq_timer == irq_time) begin 
+            irq_active <= 1'b1;
+            /* If Continuous Mode is enabled, we restart the timer */
+            if (ctrl_reg[`IRQ_TIMER_CONTINUOUS_BIT]==1'b1) begin 
+              irq_timer <= 0;
+            end           
+          end         
+        end 
+      end else
       /* Match Mode Interrupt */
         if (ctrl_reg[`IRQ_TIMER_MATCH_ENA_BIT]==1'b1) begin         
           if (millisec == irq_time) begin 
@@ -153,7 +157,7 @@ module recon_timer (
         
     end    
     
-    assign irq = irq_pulse[3]; 
+    assign irq = irq_pulse; 
     
 endmodule
 
