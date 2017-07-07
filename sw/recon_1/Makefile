@@ -78,10 +78,19 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 	cp $(ROOT)/sw/cmn/util/app_template $(APP_NAME)/src/app.cpp
 	$(CREATE_APP) --bsp-dir=$(BSP_DIR) --inc-rdir=$(ROOT)/sw/cmn --app-dir=./$(APP_NAME) --elf-name=$(APP_NAME).elf --src-dir=$(APP_NAME)/src --use-lib-dir=lib_$(PLATFORM_NAME)
 
+.phony : fpga_flash
+fpga.flash : $(SOF_FILE)
+fpga_flash: fpga.flash
+	sof2flash --compress --input=$(SOF_FILE) --output=./fpga.flash --epcs --programmingmode=as --save
+
+.phony : program-flash
+program-flash : 
+	make -C $(APP_NAME) program-flash flash_mem_epcs_flag="--epcs --after=../fpga.flash"
+
 .phony : app compile_app
 compile_app : app
-app : ##Build and generate memory initialization file for $(APP_NAME) 
-	make -C $(APP_NAME) mem_init_generate
+app : fpga.flash ##Build and generate memory initialization file for $(APP_NAME). Note that we need to overwrite the default option with --after. Because 0x0 is fpga image, we need to put the software after that.
+	make -C $(APP_NAME) mem_init_generate flash_mem_epcs_flag="--epcs --after=../fpga.flash"
 
 .phony : generate_example
 generate_example : ##Create an example to run with current platform from the example collection, example $(EX_NAME) is created
