@@ -81,7 +81,7 @@ generate_app: ##Generate a new app. Default APP_NAME=new_app. Overwrite it with 
 .phony : fpga_flash
 fpga.flash : $(SOF_FILE)
 fpga_flash: fpga.flash
-	sof2flash --compress --input=$(SOF_FILE) --output=./fpga.flash --epcs --programmingmode=as --save
+	sof2flash --input=$(SOF_FILE) --output=./fpga.flash --epcs --programmingmode=as
 
 .phony : program-flash
 program-flash : 

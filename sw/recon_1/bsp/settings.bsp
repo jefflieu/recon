@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jul 6, 2017 9:57:52 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1499342272996</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jul 9, 2017 5:43:59 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1499586239679</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>./</BspGeneratedLocation>
-        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <BspSettingsFile>./bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../../hw/recon_1/recon_1.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>cpu0</Cpu>
@@ -924,8 +924,8 @@
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>cpu0_ram</slaveDescriptor>
-                <addressRange>0x01000000 - 0x01003FFF</addressRange>
-                <addressSpan>16384</addressSpan>
+                <addressRange>0x01000000 - 0x01007FFF</addressRange>
+                <addressSpan>32768</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
