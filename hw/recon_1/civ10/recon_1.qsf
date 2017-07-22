@@ -150,7 +150,6 @@ set_global_assignment -name SDC_FILE ../timing_constraints/recon_1.sdc
 set_global_assignment -name QIP_FILE ../../cmn/util/recon_util.qip
 set_global_assignment -name QSYS_FILE ../recon_1.qsys
 set_global_assignment -name VERILOG_FILE ../recon_1_top.v
-set_global_assignment -name QIP_FILE primitives/ddro_s.qip
 set_global_assignment -name CONFIGURATION_VCCIO_LEVEL 3.3V
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
 set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF

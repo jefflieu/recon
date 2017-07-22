@@ -81,11 +81,11 @@
          type = "int";
       }
    }
-   element recon_0
+   element recon_1
    {
       datum _originalDeviceFamily
       {
-         value = "MAX 10";
+         value = "Cyclone IV E";
          type = "String";
       }
    }
