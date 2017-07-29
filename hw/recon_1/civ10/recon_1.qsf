@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE EP4CE10E22C8
 set_global_assignment -name TOP_LEVEL_ENTITY recon_1_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 16.0.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "23:28:18  MAY 18, 2017"
-set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
+set_global_assignment -name LAST_QUARTUS_VERSION "17.0.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -371,5 +371,8 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to epcs_0_dclk
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to epcs_0_sce
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to epcs_0_sdo
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to port_0_io[*]
+set_global_assignment -name ON_CHIP_BITSTREAM_DECOMPRESSION ON
+set_global_assignment -name GENERATE_HEX_FILE OFF
+set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS16
 set_global_assignment -name SLD_FILE db/cpu_dbus_ibus_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

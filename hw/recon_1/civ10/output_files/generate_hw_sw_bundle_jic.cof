@@ -2,17 +2,20 @@
 <cof>
 	<eprom_name>EPCS16</eprom_name>
 	<flash_loader_device>EP4CE10</flash_loader_device>
-	<output_filename>output_files/output_file.jic</output_filename>
-	<n_pages>1</n_pages>
+	<output_filename>output_files/recon_1.jic</output_filename>
+	<n_pages>0</n_pages>
 	<width>1</width>
 	<mode>7</mode>
-	<sof_data>
-		<user_name>Page_0</user_name>
-		<page_flags>1</page_flags>
-		<bit0>
-			<sof_filename>/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_1/civ10/output_files/recon_1.sof<compress_bitstream>1</compress_bitstream></sof_filename> 
-		</bit0>
-	</sof_data>
+	<hex_block>
+		<hex_filename>/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_1/civ10/release/software.hex</hex_filename>
+		<hex_addressing>absolute</hex_addressing>
+		<hex_little_endian>0</hex_little_endian>
+	</hex_block>
+	<hex_block>
+		<hex_filename>/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_1/civ10/output_files/recon_1.hex</hex_filename>
+		<hex_addressing>absolute</hex_addressing>
+		<hex_little_endian>0</hex_little_endian>
+	</hex_block>
 	<version>10</version>
 	<create_cvp_file>0</create_cvp_file>
 	<create_hps_iocsr>0</create_hps_iocsr>
