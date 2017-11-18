@@ -45,7 +45,7 @@ void setup()
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // Setup mode of Pins, we have INPUT, OUTPUT and OUTPWM modes
   pinMode(0,OUTPUT);
-  pinMode(PWM_PIN,INPUT);
+  pinMode(PWM_PIN,OUTPWM);
   setPWMPeriod(1000);
   analogWrite(PWM_PIN, 200);
   

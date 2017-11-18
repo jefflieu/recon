@@ -23,7 +23,7 @@ set_module_property NAME recon_timer
 set_module_property VERSION 1.0
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
-set_module_property GROUP "Basic Functions/Miscellaneous"
+set_module_property GROUP "RECON Library"
 set_module_property AUTHOR "JEFF LIEU"
 set_module_property DISPLAY_NAME recon_timer
 set_module_property INSTANTIATE_IN_SYSTEM_MODULE true
