@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Nov 18, 2017 11:58:50 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1510966730060</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Nov 19, 2017 8:09:05 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1511039345452</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>.\bsp\settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\..\hw\recon_0\recon_0.sopcinfo</SopcDesignFile>
@@ -898,12 +898,6 @@
                 <Enabled>false</Enabled>
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
-        <MemoryMap>
-                <slaveDescriptor>altpll_0</slaveDescriptor>
-                <addressRange>0x00000000 - 0x0000000F</addressRange>
-                <addressSpan>16</addressSpan>
-                <attributes/>
-        </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>recon_io_0</slaveDescriptor>
                 <addressRange>0x00010000 - 0x000100FF</addressRange>
