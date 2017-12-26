@@ -100,9 +100,19 @@ do {                                                  \
     & ~(SEQUENCER_CMD_MODE_MSK) )              \
       | SEQUENCER_CMD_MODE_RECALIBRATE)
 
+      
+/**
+  Sample storage space 
+*/      
 #define SAMPLE_STORAGE_REG                   0
 #define SAMPLE_STORAGE_MSK                   (0x00000FFF)
 #define SAMPLE_STORAGE_FIRST_SLOT            0
 #define SAMPLE_STORAGE_LAST_SLOT             63
+      
+#define SAMPLE_STORAGE_IRQ_ENABLE_REG        0x40
+#define SAMPLE_STORAGE_IRQ_ENABLE_MSK        (0x00000001)
+#define SAMPLE_STORAGE_IRQ_ENABLED           (0x00000001)
+#define SAMPLE_STORAGE_IRQ_DISABLED          (0x00000000)
+#define SAMPLE_STORAGE_IRQ_STATUS_REG        0x44
       
 #endif /* __RECON_ADC_HW_DESCRIPTION__ */

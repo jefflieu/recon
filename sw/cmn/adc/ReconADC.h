@@ -68,6 +68,11 @@ class ReconADC {
   */
   u32  analogRead(u32 pin);  
   
+  void enableInterrupt() {HWREG32(m_storageBaseAddress+SAMPLE_STORAGE_IRQ_ENABLE_REG)=SAMPLE_STORAGE_IRQ_ENABLED;}
+  void disableInterrupt(){HWREG32(m_storageBaseAddress+SAMPLE_STORAGE_IRQ_ENABLE_REG)=SAMPLE_STORAGE_IRQ_DISABLED;}
+  u32  readIrqStatus() {return HWREG32(m_storageBaseAddress+SAMPLE_STORAGE_IRQ_STATUS_REG);}
+  void clrIrqStatus(u32 statusMask) {HWREG32(m_storageBaseAddress+SAMPLE_STORAGE_IRQ_STATUS_REG) = statusMask;}
+  
   private: 
   bool m_modeContinuous;  
   u32 m_sequencerBaseAddress;
