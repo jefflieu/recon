@@ -15,9 +15,10 @@ void setup()
   /* Put your setup code here */  
   
   ///////////////////////////////////////////////////////////////////////////////////
-  // Adc object is defined in the cmn/recon_adc and compiled into the static library
+  // Adc class is defined in the cmn/adc and compiled into the static library
   // To use Adc object, we need to "bind" it to the hardware which is .bind method 
-  // Refer to the recon_adc.h for more details of supported method 
+  // and pass in base address of the sequencer and base address of the Sample storage
+  // Refer to the ReconADC.h for more details of supported method 
   Adc.bind(ADC_0_SEQUENCER_CSR_BASE, ADC_0_SAMPLE_STORE_CSR_BASE);
   
   ///////////////////////////////////////////////////////////////////////////////////
