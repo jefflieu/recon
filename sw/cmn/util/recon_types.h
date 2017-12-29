@@ -15,6 +15,9 @@ typedef char s8;
 typedef unsigned short u16;
 typedef short s16;
 
-#define HWREG(R)       (*(volatile u32*)R)
+#define HWREG(R)       (*(volatile u32*)(R))
+#define HWREG32(R)     (*(volatile u32*)(R))
+#define HWREG16(R)     (*(volatile u16*)(R))
+#define HWREG8(R)      (*(volatile u8*)(R))
 
 #endif /* RECON_TYPES_H_ */

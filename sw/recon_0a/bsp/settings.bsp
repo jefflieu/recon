@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Nov 19, 2017 8:09:05 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1511039345452</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Dec 17, 2017 9:47:16 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1513464436441</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>.\bsp\settings.bsp</BspSettingsFile>
-        <SopcDesignFile>..\..\..\hw\recon_0\recon_0.sopcinfo</SopcDesignFile>
+        <SopcDesignFile>..\..\..\hw\recon_0a\recon_0a.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>cpu0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -915,6 +915,18 @@
                 <addressRange>0x00010200 - 0x0001021F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>printable</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>adc_0_sequencer_csr</slaveDescriptor>
+                <addressRange>0x00010220 - 0x00010227</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>adc_0_sample_store_csr</slaveDescriptor>
+                <addressRange>0x00010400 - 0x000105FF</addressRange>
+                <addressSpan>512</addressSpan>
+                <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>cpu0_ram</slaveDescriptor>
