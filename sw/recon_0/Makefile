@@ -17,7 +17,7 @@
 #                 ---> bsp 
 #                 ---> lib_recon_0
 #                 ---> <your apps here>, your app can run on the same platform with any board, because the NIOS system is the same
-
+SHELL        :=/bin/bash
 ROOT          = ../..
 SOFTWARE_PATH = $(shell pwd)
 PLATFORM_NAME = $(lastword $(subst /, ,$(SOFTWARE_PATH)))
