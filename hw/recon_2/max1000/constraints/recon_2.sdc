@@ -1,4 +1,4 @@
-## Generated SDC file "/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_0/bemicro_max10/timing_constraints/recon_0.sdc"
+## Generated SDC file "/home/jeff/fpga_workspace/GitIPCores/recon/hw/recon_2/bemicro_max10/timing_constraints/recon_2.sdc"
 
 ## Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
 ## Your use of Altera Corporation's design tools, logic functions 
@@ -40,17 +40,20 @@ set_time_format -unit ns -decimal_places 3
 #**************************************************************
 
 create_clock -name {altera_reserved_tck} -period 100.000 -waveform { 0.000 50.000 } [get_ports {altera_reserved_tck}]
-create_clock -name {sys_clk_in} -period 83.000 -waveform { 0.000 42.000 } [get_ports {sys_clk}]
+create_clock -name {sys_clk_in} -period 83.334 -waveform { 0.000 42.000 } [get_ports {sys_clk}]
+
+
 
 derive_pll_clocks
 # Rename the clock 
-set cpu_clk {comb_3|altpll_0|sd1|pll7|clk[0]}
+set cpu_clk {pll|altpll_component|auto_generated|pll1|clk[0]}
+set ram_clk {pll|altpll_component|auto_generated|pll1|clk[1]}
 
 #**************************************************************
 # Create Generated Clock
 #**************************************************************
-
-
+create_generated_clock -name sdram_clk -source pll|altpll_component|auto_generated|pll1|clk[1]  -divide_by 1 -multiply_by 1 [get_ports {sdram_0_clk}]
+create_generated_clock -name flash_se_clk -source pll|altpll_component|auto_generated|pll1|clk[0] -divide_by 2 -multiply_by 1 [get_pins {recon_2:comb_4|altera_onchip_flash:onchip_flash|altera_onchip_flash_avmm_data_controller:avmm_data_controller|flash_se_neg_reg|q}] 
 
 #**************************************************************
 # Set Clock Latency
@@ -67,14 +70,18 @@ set cpu_clk {comb_3|altpll_0|sd1|pll7|clk[0]}
 #**************************************************************
 # Set Input Delay
 #**************************************************************
-set_multicycle_path -from [get_clocks {pll|altpll_component|auto_generated|pll1|clk[1]}] -to [get_clocks {pll|altpll_component|auto_generated|pll1|clk[0]}] -setup -end 2
+set_multicycle_path -from [get_clocks {sdram_clk}] -to [get_clocks {pll|altpll_component|auto_generated|pll1|clk[0]}] -setup -end 2
+set_input_delay -clock {sdram_clk} 4.5 [get_ports {sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15] sdram_0_dqm[0] sdram_0_dqm[1]}]
 
-
+set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tdi}]
+set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tms}]
 
 #**************************************************************
 # Set Output Delay
 #**************************************************************
-set_output_delay -clock { pll|altpll_component|auto_generated|pll1|clk[1] } 1.5 [get_ports {sdram_0_addr[0] sdram_0_addr[1] sdram_0_addr[2] sdram_0_addr[3] sdram_0_addr[4] sdram_0_addr[5] sdram_0_addr[6] sdram_0_addr[7] sdram_0_addr[8] sdram_0_addr[9] sdram_0_addr[10] sdram_0_addr[11] sdram_0_ba[0] sdram_0_ba[1] sdram_0_cas_n sdram_0_cke sdram_0_cs_n sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15] sdram_0_dqm[0] sdram_0_dqm[1] sdram_0_ras_n sdram_0_we_n}]
+set_output_delay -clock {sdram_clk} 1.5 [get_ports {sdram_0_addr[0] sdram_0_addr[1] sdram_0_addr[2] sdram_0_addr[3] sdram_0_addr[4] sdram_0_addr[5] sdram_0_addr[6] sdram_0_addr[7] sdram_0_addr[8] sdram_0_addr[9] sdram_0_addr[10] sdram_0_addr[11] sdram_0_ba[0] sdram_0_ba[1] sdram_0_cas_n sdram_0_cke sdram_0_cs_n sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15] sdram_0_dqm[0] sdram_0_dqm[1] sdram_0_ras_n sdram_0_we_n}]
+
+set_output_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tdo}]
 
 
 #**************************************************************
@@ -87,20 +94,8 @@ set_clock_groups -asynchronous -group [get_clocks {altera_reserved_tck}]
 #**************************************************************
 # Set False Path
 #**************************************************************
-
-set_false_path -to [get_keepers {*altera_std_synchronizer:*|din_s1}]
-set_false_path -to [get_registers {*|flash_busy_reg}]
-set_false_path -to [get_registers {*|flash_busy_clear_reg}]
-set_false_path -to [get_pins -nocase -compatibility_mode {*|alt_rst_sync_uq1|altera_reset_synchronizer_int_chain*|clrn}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_oci_break:the_recon_0_cpu0_cpu_nios2_oci_break|break_readreg*}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr*}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_oci_debug:the_recon_0_cpu0_cpu_nios2_oci_debug|*resetlatch}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr[33]}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_oci_debug:the_recon_0_cpu0_cpu_nios2_oci_debug|monitor_ready}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr[0]}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_oci_debug:the_recon_0_cpu0_cpu_nios2_oci_debug|monitor_error}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr[34]}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_ocimem:the_recon_0_cpu0_cpu_nios2_ocimem|*MonDReg*}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr*}]
-set_false_path -from [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_tck:the_recon_0_cpu0_cpu_debug_slave_tck|*sr*}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_sysclk:the_recon_0_cpu0_cpu_debug_slave_sysclk|*jdo*}]
-set_false_path -from [get_keepers {sld_hub:*|irf_reg*}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_debug_slave_wrapper:the_recon_0_cpu0_cpu_debug_slave_wrapper|recon_0_cpu0_cpu_debug_slave_sysclk:the_recon_0_cpu0_cpu_debug_slave_sysclk|ir*}]
-set_false_path -from [get_keepers {sld_hub:*|sld_shadow_jsm:shadow_jsm|state[1]}] -to [get_keepers {*recon_0_cpu0_cpu:*|recon_0_cpu0_cpu_nios2_oci:the_recon_0_cpu0_cpu_nios2_oci|recon_0_cpu0_cpu_nios2_oci_debug:the_recon_0_cpu0_cpu_nios2_oci_debug|monitor_go}]
-
+set_false_path -from [get_ports {port_0_io[0] port_0_io[1] port_0_io[2] port_0_io[3] port_0_io[4] port_0_io[5] port_0_io[6] port_0_io[7] port_0_io[8] port_0_io[9] port_0_io[10] port_0_io[11] port_0_io[12] port_0_io[13] port_0_io[14] port_0_io[15] port_0_io[16] port_0_io[17] port_0_io[18] port_0_io[19] port_0_io[20] port_0_io[21] port_0_io[22] port_0_io[23] port_0_io[24] port_0_io[25] port_0_io[26] port_0_io[27] port_0_io[28] port_0_io[29] port_0_io[30] port_0_io[31] uart_0_rxd uart_0_txd sys_rstn}]
+set_false_path -to [get_ports {port_0_io[0] port_0_io[1] port_0_io[2] port_0_io[3] port_0_io[4] port_0_io[5] port_0_io[6] port_0_io[7] port_0_io[8] port_0_io[9] port_0_io[10] port_0_io[11] port_0_io[12] port_0_io[13] port_0_io[14] port_0_io[15] port_0_io[16] port_0_io[17] port_0_io[18] port_0_io[19] port_0_io[20] port_0_io[21] port_0_io[22] port_0_io[23] port_0_io[24] port_0_io[25] port_0_io[26] port_0_io[27] port_0_io[28] port_0_io[29] port_0_io[30] port_0_io[31] uart_0_rxd uart_0_txd sys_rstn}]
 
 #**************************************************************
 # Set Multicycle Path
@@ -112,16 +107,11 @@ set_false_path -from [get_keepers {sld_hub:*|sld_shadow_jsm:shadow_jsm|state[1]}
 # Set Maximum Delay
 #**************************************************************
 
-set_max_delay -from [get_registers {*altera_avalon_st_clock_crosser:*|in_data_buffer*}] -to [get_registers {*altera_avalon_st_clock_crosser:*|out_data_buffer*}] 100.000
-set_max_delay -from [get_registers *] -to [get_registers {*altera_avalon_st_clock_crosser:*|altera_std_synchronizer_nocut:*|din_s1}] 100.000
-
 
 #**************************************************************
 # Set Minimum Delay
 #**************************************************************
 
-set_min_delay -from [get_registers {*altera_avalon_st_clock_crosser:*|in_data_buffer*}] -to [get_registers {*altera_avalon_st_clock_crosser:*|out_data_buffer*}] -100.000
-set_min_delay -from [get_registers *] -to [get_registers {*altera_avalon_st_clock_crosser:*|altera_std_synchronizer_nocut:*|din_s1}] -100.000
 
 
 #**************************************************************
@@ -134,5 +124,3 @@ set_min_delay -from [get_registers *] -to [get_registers {*altera_avalon_st_cloc
 # Set Net Delay
 #**************************************************************
 
-set_net_delay -max 2.000 -from [get_registers *] -to [get_registers {*altera_avalon_st_clock_crosser:*|altera_std_synchronizer_nocut:*|din_s1}]
-set_net_delay -max 2.000 -from [get_registers {*altera_avalon_st_clock_crosser:*|in_data_buffer*}] -to [get_registers {*altera_avalon_st_clock_crosser:*|out_data_buffer*}]

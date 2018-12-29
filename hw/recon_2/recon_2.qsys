@@ -107,6 +107,14 @@
          type = "String";
       }
    }
+   element recon_2
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
    element recon_io_0
    {
       datum _sortIndex
@@ -194,13 +202,13 @@
    internal="uart_0.external_connection"
    type="conduit"
    dir="end" />
- <module name="clk_0" kind="clock_source" version="17.1" enabled="1">
-  <parameter name="clockFrequency" value="80000000" />
+ <module name="clk_0" kind="clock_source" version="18.0" enabled="1">
+  <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="DEASSERT" />
  </module>
- <module name="cpu0" kind="altera_nios2_gen2" version="17.1" enabled="1">
+ <module name="cpu0" kind="altera_nios2_gen2" version="18.0" enabled="1">
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
   <parameter name="AUTO_DEVICE" value="10M08SAU169C8G" />
@@ -209,7 +217,7 @@
   <parameter name="breakOffset" value="32" />
   <parameter name="breakSlave" value="None" />
   <parameter name="cdx_enabled" value="false" />
-  <parameter name="clockFrequency" value="80000000" />
+  <parameter name="clockFrequency" value="50000000" />
   <parameter name="cpuArchRev" value="1" />
   <parameter name="cpuID" value="0" />
   <parameter name="cpuReset" value="false" />
@@ -381,7 +389,7 @@
  <module
    name="cpu0_exception_ram"
    kind="altera_avalon_onchip_memory2"
-   version="17.1"
+   version="18.0"
    enabled="1">
   <parameter name="allowInSystemMemoryContentEditor" value="false" />
   <parameter name="autoInitializationFileName">$${FILENAME}_cpu0_exception_ram</parameter>
@@ -413,7 +421,7 @@
  <module
    name="cpu0_ram"
    kind="altera_avalon_onchip_memory2"
-   version="17.1"
+   version="18.0"
    enabled="1">
   <parameter name="allowInSystemMemoryContentEditor" value="false" />
   <parameter name="autoInitializationFileName">$${FILENAME}_cpu0_ram</parameter>
@@ -445,9 +453,9 @@
  <module
    name="onchip_flash"
    kind="altera_onchip_flash"
-   version="17.1"
+   version="18.0"
    enabled="1">
-  <parameter name="AUTO_CLOCK_RATE" value="80000000" />
+  <parameter name="AUTO_CLOCK_RATE" value="50000000" />
   <parameter name="CLOCK_FREQUENCY" value="80.0" />
   <parameter name="CONFIGURATION_MODE">Single Compressed Image</parameter>
   <parameter name="CONFIGURATION_SCHEME">Internal Configuration</parameter>
@@ -468,12 +476,12 @@
   <parameter name="PWM_CNTR_WIDTH" value="12" />
  </module>
  <module name="recon_timer_0" kind="recon_timer" version="1.0" enabled="1">
-  <parameter name="CLK_FREQ" value="80000000" />
+  <parameter name="CLK_FREQ" value="50000000" />
  </module>
  <module
    name="reset"
    kind="altera_reset_controller"
-   version="17.1"
+   version="18.0"
    enabled="1">
   <parameter name="MIN_RST_ASSERTION_TIME" value="3" />
   <parameter name="NUM_RESET_INPUTS" value="2" />
@@ -503,7 +511,7 @@
  <module
    name="sdram_0"
    kind="altera_avalon_new_sdram_controller"
-   version="17.1"
+   version="18.0"
    enabled="1">
   <parameter name="TAC" value="5.5" />
   <parameter name="TMRD" value="3" />
@@ -512,7 +520,7 @@
   <parameter name="TRP" value="15.0" />
   <parameter name="TWR" value="14.0" />
   <parameter name="casLatency" value="2" />
-  <parameter name="clockRate" value="80000000" />
+  <parameter name="clockRate" value="50000000" />
   <parameter name="columnWidth" value="8" />
   <parameter name="componentName">$${FILENAME}_sdram_0</parameter>
   <parameter name="dataWidth" value="16" />
@@ -529,9 +537,9 @@
   <parameter name="registerDataIn" value="true" />
   <parameter name="rowWidth" value="12" />
  </module>
- <module name="uart_0" kind="altera_avalon_uart" version="17.1" enabled="1">
+ <module name="uart_0" kind="altera_avalon_uart" version="18.0" enabled="1">
   <parameter name="baud" value="115200" />
-  <parameter name="clockRate" value="80000000" />
+  <parameter name="clockRate" value="50000000" />
   <parameter name="dataBits" value="8" />
   <parameter name="fixedBaud" value="false" />
   <parameter name="parity" value="NONE" />
@@ -547,7 +555,7 @@
  </module>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="onchip_flash.csr">
   <parameter name="arbitrationPriority" value="1" />
@@ -556,7 +564,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="onchip_flash.data">
   <parameter name="arbitrationPriority" value="1" />
@@ -565,7 +573,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="cpu0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -574,7 +582,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="recon_io_0.s0">
   <parameter name="arbitrationPriority" value="1" />
@@ -583,21 +591,21 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="recon_timer_0.s0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00010100" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="avalon" version="17.1" start="cpu0.data_master" end="uart_0.s1">
+ <connection kind="avalon" version="18.0" start="cpu0.data_master" end="uart_0.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00010200" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="cpu0_exception_ram.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -606,7 +614,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="sdram_0.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -615,7 +623,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.data_master"
    end="cpu0_ram.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -624,7 +632,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.instruction_master"
    end="onchip_flash.data">
   <parameter name="arbitrationPriority" value="1" />
@@ -633,7 +641,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.instruction_master"
    end="cpu0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -642,7 +650,7 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.instruction_master"
    end="sdram_0.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -651,97 +659,97 @@
  </connection>
  <connection
    kind="avalon"
-   version="17.1"
+   version="18.0"
    start="cpu0.instruction_master"
    end="cpu0_exception_ram.s2">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x01100000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="clock" version="17.1" start="clk_0.clk" end="reset.clk" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="cpu0.clk" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="onchip_flash.clk" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="uart_0.clk" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="sdram_0.clk" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="reset.clk" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="cpu0.clk" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="onchip_flash.clk" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="uart_0.clk" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="sdram_0.clk" />
  <connection
    kind="clock"
-   version="17.1"
+   version="18.0"
    start="clk_0.clk"
    end="cpu0_exception_ram.clk1" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="cpu0_ram.clk1" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="cpu0_ram.clk1" />
  <connection
    kind="clock"
-   version="17.1"
+   version="18.0"
    start="clk_0.clk"
    end="cpu0_exception_ram.clk2" />
- <connection kind="clock" version="17.1" start="clk_0.clk" end="recon_io_0.clock" />
+ <connection kind="clock" version="18.0" start="clk_0.clk" end="recon_io_0.clock" />
  <connection
    kind="clock"
-   version="17.1"
+   version="18.0"
    start="clk_0.clk"
    end="recon_timer_0.clock" />
- <connection kind="interrupt" version="17.1" start="cpu0.irq" end="recon_io_0.irq">
+ <connection kind="interrupt" version="18.0" start="cpu0.irq" end="recon_io_0.irq">
   <parameter name="irqNumber" value="0" />
  </connection>
  <connection
    kind="interrupt"
-   version="17.1"
+   version="18.0"
    start="cpu0.irq"
    end="recon_timer_0.irq">
   <parameter name="irqNumber" value="1" />
  </connection>
- <connection kind="interrupt" version="17.1" start="cpu0.irq" end="uart_0.irq">
+ <connection kind="interrupt" version="18.0" start="cpu0.irq" end="uart_0.irq">
   <parameter name="irqNumber" value="2" />
  </connection>
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="clk_0.clk_reset"
    end="reset.reset_in1" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="cpu0.debug_reset_request"
    end="reset.reset_in0" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="onchip_flash.nreset" />
- <connection kind="reset" version="17.1" start="reset.reset_out" end="cpu0.reset" />
+ <connection kind="reset" version="18.0" start="reset.reset_out" end="cpu0.reset" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="recon_io_0.reset" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="recon_timer_0.reset" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="uart_0.reset" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="sdram_0.reset" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="cpu0_exception_ram.reset1" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="cpu0_ram.reset1" />
  <connection
    kind="reset"
-   version="17.1"
+   version="18.0"
    start="reset.reset_out"
    end="cpu0_exception_ram.reset2" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />

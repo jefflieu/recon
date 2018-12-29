@@ -30,6 +30,8 @@ module recon_2_top #(parameter PORT_0_WIDTH = 32) (
   wire [PORT_0_WIDTH-1:0] port_0_oe; 
   wire [PORT_0_WIDTH-1:0] port_0_opdrn; 
   wire cpu_clk, locked;
+  wire sdram_clk;
+  reg  sdram_clk_reg;
   
   /*
   PLL is put at the top to be shared across boards
@@ -39,8 +41,16 @@ module recon_2_top #(parameter PORT_0_WIDTH = 32) (
 	.areset   (~sys_rstn),
 	.inclk0   (sys_clk),
 	.c0       (cpu_clk),
-  .c1       (sdram_0_clk),
+  .c1       (sdram_clk),
 	.locked   (locked));
+	
+	alt_ddr sdram_clk_io(
+		.outclock	(sdram_clk)		,  // outclock.export
+		.din			(2'b01)			,  //      din.export
+		.pad_out		(sdram_0_clk)   	//  pad_out.export
+	);
+	
+	
   
   buttonDebouncer
   #(  /* Debounce time - Count in nanosecond */
