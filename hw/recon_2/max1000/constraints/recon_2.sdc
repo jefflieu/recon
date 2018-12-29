@@ -42,9 +42,9 @@ set_time_format -unit ns -decimal_places 3
 create_clock -name {altera_reserved_tck} -period 100.000 -waveform { 0.000 50.000 } [get_ports {altera_reserved_tck}]
 create_clock -name {sys_clk_in} -period 83.334 -waveform { 0.000 42.000 } [get_ports {sys_clk}]
 
-
-
 derive_pll_clocks
+derive_clock_uncertainty
+
 # Rename the clock 
 set cpu_clk {pll|altpll_component|auto_generated|pll1|clk[0]}
 set ram_clk {pll|altpll_component|auto_generated|pll1|clk[1]}
@@ -71,7 +71,7 @@ create_generated_clock -name flash_se_clk -source pll|altpll_component|auto_gene
 # Set Input Delay
 #**************************************************************
 set_multicycle_path -from [get_clocks {sdram_clk}] -to [get_clocks {pll|altpll_component|auto_generated|pll1|clk[0]}] -setup -end 2
-set_input_delay -clock {sdram_clk} 4.5 [get_ports {sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15] sdram_0_dqm[0] sdram_0_dqm[1]}]
+set_input_delay -clock {sdram_clk} 4.5 [get_ports {sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15]}]
 
 set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tdi}]
 set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tms}]
