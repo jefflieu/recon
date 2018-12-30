@@ -70,8 +70,8 @@ create_generated_clock -name flash_se_clk -source pll|altpll_component|auto_gene
 #**************************************************************
 # Set Input Delay
 #**************************************************************
-set_multicycle_path -from [get_clocks {sdram_clk}] -to [get_clocks {pll|altpll_component|auto_generated|pll1|clk[0]}] -setup -end 2
-set_input_delay -clock {sdram_clk} 4.5 [get_ports {sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15]}]
+#From the datasheet, tac = 6ns
+set_input_delay -clock {sdram_clk} 6 [get_ports {sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15]}]
 
 set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tdi}]
 set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tms}]
@@ -79,6 +79,7 @@ set_input_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tm
 #**************************************************************
 # Set Output Delay
 #**************************************************************
+#From the datasheet, tds = 1.5ns
 set_output_delay -clock {sdram_clk} 1.5 [get_ports {sdram_0_addr[0] sdram_0_addr[1] sdram_0_addr[2] sdram_0_addr[3] sdram_0_addr[4] sdram_0_addr[5] sdram_0_addr[6] sdram_0_addr[7] sdram_0_addr[8] sdram_0_addr[9] sdram_0_addr[10] sdram_0_addr[11] sdram_0_ba[0] sdram_0_ba[1] sdram_0_cas_n sdram_0_cke sdram_0_cs_n sdram_0_dq[0] sdram_0_dq[1] sdram_0_dq[2] sdram_0_dq[3] sdram_0_dq[4] sdram_0_dq[5] sdram_0_dq[6] sdram_0_dq[7] sdram_0_dq[8] sdram_0_dq[9] sdram_0_dq[10] sdram_0_dq[11] sdram_0_dq[12] sdram_0_dq[13] sdram_0_dq[14] sdram_0_dq[15] sdram_0_dqm[0] sdram_0_dqm[1] sdram_0_ras_n sdram_0_we_n}]
 
 set_output_delay -clock { altera_reserved_tck } 10 [get_ports {altera_reserved_tdo}]
